@@ -1,5 +1,7 @@
 package com.dy.bulletscreen.dao;
 
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
+
 /**
  * 描述：<br>
  * 版权：Copyright (c) 2011 ~ 2017<br>
@@ -8,10 +10,10 @@ package com.dy.bulletscreen.dao;
  * 版本：1.0<br>
  * 创建日期：2017/11/6<br>
  */
-public class DMDetailDAO extends BaseDao {
+public class DMDetailDAO extends JdbcDaoSupport{
 
-    public int save(String uid, String text) {
-        String sql = "INSERT INTO dm_detail(uid, text, date) VALUES(?, ?, now()) ";
-        return createJdbcTemplate(null).update(sql, uid, text);
+    public int save(String uid, String text, String roomid) {
+        String sql = "INSERT INTO dm_detail(uid, text, roomid, date) VALUES(?, ?, ?, now()) ";
+        return getJdbcTemplate().update(sql, uid, text, roomid);
     }
 }

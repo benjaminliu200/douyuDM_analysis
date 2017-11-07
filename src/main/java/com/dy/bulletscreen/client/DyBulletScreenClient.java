@@ -1,12 +1,12 @@
 package com.dy.bulletscreen.client;
 
-import com.dy.bulletscreen.dao.DMCountDAO;
-import com.dy.bulletscreen.dao.DMDetailDAO;
+import com.dy.bulletscreen.kafka.KafkaMessageSender;
 import com.dy.bulletscreen.msg.DyMessage;
 import com.dy.bulletscreen.msg.MsgView;
-import com.dy.bulletscreen.utils.ParseDYMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -231,28 +231,16 @@ public class DyBulletScreenClient
     		
 			//判断消息类型
 			if(msg.get("type").equals("chatmsg")){//弹幕消息
-				logger.debug("弹幕消息===>" + msg.toString());
-				Map<String, String> data = ParseDYMsg.parse(msg.toString());
-				logger.debug("map数据:{}" + data);
-				String nickName = data.get("nn");
-				String uid = data.get("uid");
-				String txt = data.get("txt");
-				// step1 存储弹幕总数库
-				DMCountDAO dmCountDAO = new DMCountDAO();
-				if (dmCountDAO.queryTodayCountByUid(uid)) {
-					// 今天uid这个用户发过弹幕
-					dmCountDAO.updateCount(uid);
-				} else {
-					dmCountDAO.save(uid, nickName);
-				}
-				// step2 存储弹幕细节库
-				DMDetailDAO dmDetailDAO = new DMDetailDAO();
-				dmDetailDAO.save(uid, txt);
+				 logger.debug("弹幕消息===>" + msg.toString());
+				 // kafka 消息推送
+				ApplicationContext applicationContext = new ClassPathXmlApplicationContext("app-kafka-sender.xml");
+				KafkaMessageSender kafkaMessageSender = (KafkaMessageSender) applicationContext.getBean("kafkaMessageSender");
+				kafkaMessageSender.send(msg.toString());
 
 			} else if(msg.get("type").equals("dgb")){//赠送礼物信息
-				logger.debug("礼物消息===>" + msg.toString());
+				// logger.debug("礼物消息===>" + msg.toString());
 			} else {
-				logger.debug("其他消息===>" + msg.toString());
+				// logger.debug("其他消息===>" + msg.toString());
 			}
 			
 			//@TODO 其他业务信息根据需要进行添加
