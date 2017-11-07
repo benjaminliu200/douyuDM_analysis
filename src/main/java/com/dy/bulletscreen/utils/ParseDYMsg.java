@@ -18,7 +18,7 @@ public class ParseDYMsg {
         Map<String, String> result = new HashMap<String, String>();
         for(String data : subMsgArr) {
             String[] tmpArr = data.split("=");
-            result.put(tmpArr[0], data.substring(tmpArr[0].length() + 1));
+            result.put(tmpArr[0].trim(), data.substring(tmpArr[0].length() + 1));
         }
         return result;
     }

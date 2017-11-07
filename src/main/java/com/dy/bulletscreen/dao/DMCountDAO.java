@@ -1,7 +1,5 @@
 package com.dy.bulletscreen.dao;
 
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-
 /**
  * 描述：斗鱼弹幕数量DAO<br>
  * 版权：Copyright (c) 2011 ~ 2017<br>
@@ -10,7 +8,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
  * 版本：1.0<br>
  * 创建日期：2017/11/6<br>
  */
-public class DMCountDAO extends JdbcDaoSupport {
+public class DMCountDAO extends BaseDao {
 
 
     /**
@@ -21,16 +19,16 @@ public class DMCountDAO extends JdbcDaoSupport {
      */
     public int save(String uid, String nickName) {
         String sql = "INSERT INTO dm_count(uid, nickName, dmCount, date) VALUES (?, ?, 1, now());";
-        return getJdbcTemplate().update(sql, uid, nickName);
+        return createJdbcTemplate(null).update(sql, uid, nickName);
     }
 
     public boolean queryTodayCountByUid(String uid) {
         String sql = "SELECT count(1) FROM  dm_count WHERE uid = ? AND DATEDIFF(date, now())=0";
-        return getJdbcTemplate().queryForObject(sql, Integer.TYPE, uid) > 0;
+        return createJdbcTemplate(null).queryForObject(sql, Integer.TYPE, uid) > 0;
     }
 
     public int updateCount(String uid) {
         String sql = "UPDATE dm_count set dmCount = dmCount + 1 WHERE uid = ? AND DATEDIFF(date, now())=0";
-        return getJdbcTemplate().update(sql, uid);
+        return createJdbcTemplate(null).update(sql, uid);
     }
 }

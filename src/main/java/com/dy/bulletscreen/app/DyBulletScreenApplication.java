@@ -14,7 +14,8 @@ public class DyBulletScreenApplication
 {
 	//设置需要访问的房间ID信息
 	private static final int roomId = 533813;
-	
+//	private static final int roomId = 1854725;
+
 	//弹幕池分组号，海量模式使用-9999
 	private static final int groupId = -9999;
 	

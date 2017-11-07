@@ -3,7 +3,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	<!-- 必须项-->
     <appender name="infoAppender" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/data/log/Dy_BulletScreen_Demo/stdout.log"/>
+        <param name="File" value="/Users/liudeyong/workspace/idea_my/Dy_BulletScreen_Demo/log/stdout.log"/>
         <param name="Append" value="true"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />  
         <layout class="org.apache.log4j.PatternLayout">
@@ -17,7 +17,7 @@
 
      <!-- 必须项-->
      <appender name="errorAppender" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="/data/log/Dy_BulletScreen_Demo/stderr.log"/>
+        <param name="File" value="/Users/liudeyong/workspace/idea_my/Dy_BulletScreen_Demo/log/stderr.log"/>
         <param name="Append" value="true"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />  
         <layout class="org.apache.log4j.PatternLayout">

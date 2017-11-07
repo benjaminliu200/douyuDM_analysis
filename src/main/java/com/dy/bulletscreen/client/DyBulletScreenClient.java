@@ -1,6 +1,5 @@
 package com.dy.bulletscreen.client;
 
-import com.dy.bulletscreen.WebMain;
 import com.dy.bulletscreen.dao.DMCountDAO;
 import com.dy.bulletscreen.dao.DMDetailDAO;
 import com.dy.bulletscreen.msg.DyMessage;
@@ -8,8 +7,6 @@ import com.dy.bulletscreen.msg.MsgView;
 import com.dy.bulletscreen.utils.ParseDYMsg;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -45,12 +42,6 @@ public class DyBulletScreenClient
     //获取弹幕线程及心跳线程运行和停止标记
     private boolean readyFlag = false;
 
-    @Autowired
-    private DMCountDAO dmCountDAO;
-
-    @Autowired
-    private DMDetailDAO dmDetailDAO;
-    
     private DyBulletScreenClient(){}
     
     /**
@@ -59,7 +50,6 @@ public class DyBulletScreenClient
      */
     public static DyBulletScreenClient getInstance(){
     	if(null == instance){
-//    		instance = WebMain.appContext.getBean(DyBulletScreenClient.class);
     		instance = new DyBulletScreenClient();
     	}
     	return instance;
@@ -241,12 +231,14 @@ public class DyBulletScreenClient
     		
 			//判断消息类型
 			if(msg.get("type").equals("chatmsg")){//弹幕消息
+				logger.debug("弹幕消息===>" + msg.toString());
 				Map<String, String> data = ParseDYMsg.parse(msg.toString());
-
+				logger.debug("map数据:{}" + data);
 				String nickName = data.get("nn");
 				String uid = data.get("uid");
 				String txt = data.get("txt");
 				// step1 存储弹幕总数库
+				DMCountDAO dmCountDAO = new DMCountDAO();
 				if (dmCountDAO.queryTodayCountByUid(uid)) {
 					// 今天uid这个用户发过弹幕
 					dmCountDAO.updateCount(uid);
@@ -254,8 +246,9 @@ public class DyBulletScreenClient
 					dmCountDAO.save(uid, nickName);
 				}
 				// step2 存储弹幕细节库
+				DMDetailDAO dmDetailDAO = new DMDetailDAO();
 				dmDetailDAO.save(uid, txt);
-				logger.debug("弹幕消息===>" + msg.toString());
+
 			} else if(msg.get("type").equals("dgb")){//赠送礼物信息
 				logger.debug("礼物消息===>" + msg.toString());
 			} else {
