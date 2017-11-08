@@ -18,7 +18,7 @@ public class KafkaMessageReceiverTestIgnore {
 
 	@Test
 	public void test1() throws Exception {
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("app-*.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("app-kafka-receiver.xml", "app-db.xml", "app-dao.xml");
 		Thread.sleep(10 * 60 * 1000);
 	}
 }

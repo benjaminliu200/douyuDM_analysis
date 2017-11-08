@@ -16,5 +16,4 @@
     <bean id="dmDetailDAO" class="com.dy.bulletscreen.dao.DMDetailDAO">
         <property name="dataSource" ref="dyDataSource"></property>
     </bean>
-
 </beans>
