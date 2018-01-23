@@ -5,7 +5,7 @@ package com.dy.bulletscreen.kafka;
  * 版权: Copyright (c) 2011-2016<br>
  * 公司: 北京活力天汇<br>
  * 
- * @author: 童凡<br>
+ * @author: 刘德咏<br>
  * @date: 2016年10月19日<br>
  */
 public interface KafkaMessageHandler {
