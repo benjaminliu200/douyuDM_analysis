@@ -45,7 +45,7 @@
 	<!-- 必须项-->
     <!-- 定义以com.dy.bulletscreen开头的类的日志级别 -->
     <logger name="com.dy.bulletscreen" additivity="false"> 
-        <level value ="debug"/> 
+        <level value ="debug error"/>
         <appender-ref ref="infoAppender"/>
         <appender-ref ref="errorAppender"/>
         <appender-ref ref="myConsole"/>

@@ -12,8 +12,8 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
  */
 public class DMDetailDAO extends JdbcDaoSupport{
 
-    public int save(String uid, String text, String roomid) {
+    public Boolean save(String uid, String text, String roomid) {
         String sql = "INSERT INTO dm_detail(uid, text, roomid, date) VALUES(?, ?, ?, now()) ";
-        return getJdbcTemplate().update(sql, uid, text, roomid);
+        return getJdbcTemplate().update(sql, uid, text, roomid) == 1;
     }
 }

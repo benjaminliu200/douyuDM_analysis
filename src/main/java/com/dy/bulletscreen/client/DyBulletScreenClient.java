@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.net.InetAddress;
@@ -33,6 +34,12 @@ public class DyBulletScreenClient
 	
 	//设置字节获取buffer的最大值
     private static final int MAX_BUFFER_LENGTH = 4096;
+
+	//spring上下文
+	private static ApplicationContext applicationContext;
+	static {
+		applicationContext = new ClassPathXmlApplicationContext("app-*.xml");
+	}
 
     //socket相关配置
     private Socket sock;
@@ -231,9 +238,8 @@ public class DyBulletScreenClient
     		
 			//判断消息类型
 			if(msg.get("type").equals("chatmsg")){//弹幕消息
-				 logger.debug("弹幕消息===>" + msg.toString());
+				logger.debug("弹幕消息===>" + msg.toString());
 				 // kafka 消息推送
-				ApplicationContext applicationContext = new ClassPathXmlApplicationContext("app-kafka-sender.xml");
 				KafkaMessageSender kafkaMessageSender = (KafkaMessageSender) applicationContext.getBean("kafkaMessageSender");
 				kafkaMessageSender.send(msg.toString());
 

@@ -1,6 +1,5 @@
 package com.dy.bulletscreen.kafka;
 
-import com.dy.bulletscreen.client.DyBulletScreenClient;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.log4j.Logger;
@@ -23,13 +22,13 @@ public class KafkaMessageSender {
 	/**
 	 * 发送消息
 	 * 
-	 * @param object
+	 * @param message 发送的消息
 	 */
 	public void send(String message) {
 		String key = UUID.randomUUID().toString();
 		logger.debug("准备发送kafka消息,key:"+ key +",内容:" + message);
 		try {
-			kafkaProducer.send(new ProducerRecord<Integer, String>(topic, message));
+			kafkaProducer.send(new ProducerRecord<>(topic, message));
 		} catch (Exception e) {
 			logger.error("Exception", e);
 		}

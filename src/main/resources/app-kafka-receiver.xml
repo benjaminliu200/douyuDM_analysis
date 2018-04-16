@@ -29,10 +29,13 @@
     <bean id="kafkaConsumer" class="org.apache.kafka.clients.consumer.KafkaConsumer">
         <constructor-arg name="configs" ref="kafkaProperties"></constructor-arg>
     </bean>
+    <task:executor id="handleMessageTaskExecutor" pool-size="100" queue-capacity="100" rejection-policy="DISCARD"/>
 
-    <bean id="kafkaMessageHandler" class="com.dy.bulletscreen.kafka.impl.CustomKafkaMessageHandler">
+    <!--<bean id="kafkaMessageHandler" class="com.dy.bulletscreen.kafka.impl.CustomKafkaMessageHandler">-->
+    <bean id="kafkaMessageHandler" class="com.dy.bulletscreen.kafka.impl.MultiThreadCustomKafkaMessageHandler">
         <property name="dmCountDAO" ref="dmCountDao"/>
         <property name="dmDetailDAO" ref="dmDetailDAO"/>
+        <property name="handleMessageTaskExecutor" ref="handleMessageTaskExecutor" />
     </bean>
 
     <bean id="kafkaMessageReceiver" class="com.dy.bulletscreen.kafka.KafkaMessageReceiver" init-method="init">
